@@ -1,0 +1,181 @@
+<!--DOCTYPE html-->
+<html lang="pt-br">
+	<head>
+		<meta charset="utf-8">
+		<title>Titulo</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<link href="css/bootstrap.min.css" rel="stylesheet" />
+		<link href="css/meucss.css" rel="stylesheet" />
+		<script>
+			var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);  
+			//function tabelas(){
+				db.transaction(function (tx) { 
+				   tx.executeSql('CREATE TABLE IF NOT EXISTS contas (id unique, acao text, estabelecimento text, valor text, formapgto text, calendario text, create_at text');
+				}); 
+			//} 
+		</script>
+		<script src="js/vue.js"></script>
+		<script src="js/vue-axios.js"></script>
+		<script src="js/jquery.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/mask.js"></script>
+		<script src="js/dbqueries.js"></script>
+	</head>
+	<body onload="tabelas()">
+		<nav class="navbar navbar-expand-sm bg-light navbar-light">
+		  <ul class="navbar-nav">
+			<li class="nav-item active">
+			  <a class="nav-link" href="#">Active</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" href="#">Link</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" href="#">Link</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link disabled" href="#">Disabled</a>
+			</li>
+		  </ul>
+		</nav>
+		<hr>
+
+		<!-- PRINCIPAL -->
+		<div class="container-fluid" id="main">
+			<!-- Escrever o conteudo aqui -->
+			<div class="row">
+				<div class="col-md-3" id="lateral">
+					<h3 class="text-center">Formulario</h3>
+					<form>
+					  <div class="form-group">
+					    <label for="acao">Ação</label>
+					    <select v-model="acao" class="form-control" id="acao" required="">
+					    	<option value="">---</option>
+					    	<option class="text-uppercase" v-for="acao in acoes"  :value="acao.text">{{ acao.text }}</option>
+						</select>
+					  </div>
+					  <div  v-if="acao" class="form-group">
+					    <label for="estabelecimentos">Estabelecimentos</label>
+					    <select v-model="estabelecimento" class="form-control" id="local" required="">
+					    	<option id="optnew" value="novo">INSERIR NOVO</option>
+					    	<option class="text-uppercase" v-for="estabelecimento in estabelecimentos"  :value="estabelecimento.text">{{ estabelecimento.text }}</option>
+						</select>
+					  </div>
+					  <div v-if="estabelecimento ==='novo'"	 class="form-group">
+					    <label for="novo">Novo</label>
+					    <input v-model="novo" type="text" class="form-control" id="novo" placeholder="Novo do estabelecimento" autocomplete="off" required="">
+					  </div>
+					  <div class="form-group">
+					    <label for="valor">Valor</label>
+					    <input  type="text" class="form-control" id="valor" placeholder="R$" autocomplete="off" required="">
+					  </div>
+					  <div class="form-group">
+						  <label for="pgto">Tipo de PGTO</label>
+						  <select v-model="pgto" class="form-control" id="pgto" required="">
+						    <option v-for="option in meiopgto" class="text-uppercase" :value="option.text"> {{ option.text }}</option>
+						  </select>
+						</div>
+					  <div class="form-group">
+					    <label for="calendario">Data</label>
+					    <input v-model="calendario" type="date" class="form-control" id="calendario" placeholder="Data" required="">
+					  </div>
+						<br>
+					  <a v-on:click="salvar()" class="btn btn-primary btn-block">Salvar</a>
+					  <button type="reset" class="btn btn-default btn-block">Cancelar</button>
+					</form>
+				</div>
+				<div class="col-md-9">
+					<table class="table">
+					  <thead class="thead-dark">
+					    <tr>
+					      <th scope="col">#</th>
+					      <th scope="col">First</th>
+					      <th scope="col">Last</th>
+					      <th scope="col">Handle</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr >
+					      <th scope="row">1</th>
+					      <td>Mark</td>
+					      <td>Otto</td>
+					      <td>@mdo</td>
+					    </tr>
+					    <tr>
+					      <th scope="row">2</th>
+					      <td>Jacob</td>
+					      <td>Thornton</td>
+					      <td>@fat</td>
+					    </tr>
+					    <tr>
+					      <th scope="row">3</th>
+					      <td>Larry</td>
+					      <td>the Bird</td>
+					      <td>@twitter</td>
+					    </tr>
+					  </tbody>
+					</table>
+				</div>
+			</div>
+			<hr>
+			<!-- RODAPÉ -->	
+			<div class="container-fluid" id="footer">
+				<p class="text-center">&copy; 2022 <a href="#">Linsbrasil</a></p>
+			</div>
+		</div> <!-- FIM DO MAIN -->
+		<script>
+			var app = new Vue({
+				el: '#main',
+				data: {
+					acao:'',
+					estabelecimento:'',
+					valor:'',
+					novo:'',
+					calendario:'',
+					pgto:'',
+					resultados:[],
+					acoes:[
+						{ text: 'mercado' },
+						{ text: 'gás' },
+						{ text: 'combustível' },
+						{ text: 'farmácia' }
+					],
+					estabelecimentos:[
+						{ text: 'Amigão' },
+						{ text: 'Bom Gás' },
+						{ text: 'Drogaserv' },
+						{ text: 'Posto Shell' }
+					],
+					meiopgto:[
+						{ text: 'dinheiro' },
+						{ text: 'cartão' },
+						{ text: 'pix' }
+					]
+				},
+				methods:{
+					salvar:function(){
+						let acao = this.acao;
+						let estabelecimento = this.estabelecimento;
+						let novo = this.novo;
+						let formapgto = this.pgto;
+						let calendario = this.calendario;
+						let inputValor = document.getElementById('valor').value;
+						let valor = this.formatPrice(inputValor);
+						let soma = acao + " - R$" + valor + " pgto em " + formapgto + " na data de: " + calendario + " - " + novo + " estabelecimento: " + estabelecimento;
+						alert(soma);
+						storeContas(acao, estabelecimento, valor, formapgto, calendario);
+					},
+					formatPrice(value) {
+	                    let val = (value/1).toFixed(2)
+	                    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+	                }
+				},
+				mounted:function(){
+					var valor = $("#valor");
+			    	valor.mask('00000.00', {reverse: true});
+				}
+			})
+		</script>
+	</body>
+</html>

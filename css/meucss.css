@@ -1,0 +1,43 @@
+#main{
+	height:500px;
+}
+#footer{
+	/*border:solid 1px #000;*/
+	padding-top: 10px;
+	background-color: #DCDCDC;
+	height:50px;
+}
+#meio{
+	background-color: #FFFFFF;
+}
+#lateral{
+	background-color: #DCDCDC;
+	padding-top: 15px;
+}
+#todos li{
+	list-style-type: none;
+}
+#frutas *{
+	background-color: #000000;
+}
+label{
+	color: #007bff !important;
+	background-color: #ffffff;
+	padding: 2px 8px 2px 8px;
+	border-radius: 10px;
+	border: solid 1px #CDC9C9;
+}
+input[name="frutas"] {
+  border: 2px solid orange;
+  border-radius: 10px 10px 10px 10px;
+  font-size: 18px;
+  padding: 5px;
+  height: 35px;
+  width: 350px;
+}
+select{
+	text-transform: uppercase;
+}
+select #optnew{
+	color: #58ACFA;
+}
