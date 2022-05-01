@@ -1,7 +1,15 @@
 /**Importando outros arquivos para dentro deste*/
-document.write(unescape("%3Cscript src='Cliente.js' type='text/javascript'%3E%3C/script%3E"));
-document.write(unescape("%3Cscript src='Produto.js' type='text/javascript'%3E%3C/script%3E"));
-document.write(unescape("%3Cscript src='Post.js' type='text/javascript'%3E%3C/script%3E"));
+var files = [
+	"Cliente",
+	"Produto.js",
+	"Post"
+]
+var item = '' ;
+for (let i = 0; i < files.length; i++) {  	
+	let item = files[i].replace(".js", "");	
+	document.write(unescape("%3Cscript src='" + item + ".js' type='text/javascript'%3E%3C/script%3E"));
+}
+	
 /** */
 function storeContas(acao, estabelecimento, valor, formapgto, calendario) {
 	var create_at = pegarData();
