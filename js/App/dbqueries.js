@@ -1,36 +1,13 @@
-var files = [
-  "App/migrations"
-]
-
-var repositories = [
-    'functions',
-    'apis'
-];
-
-var controllers = [
-    'user',
-    'produto',
-    'vendas'
-];
-
-for (let i = 0; i < repositories.length; i++) {    
-  let item = repositories[i].replace(".js", ""); 
-  let repo = "App/repositories/" + item;
-  files.push(repo);
-}
-
-for (let i = 0; i < controllers.length; i++) {    
-  let item = controllers[i].replace(".js", ""); 
-  let control = "App/controllers/" + item;
-  files.push(control);
-}
-
 /**Importando outros arquivos para dentro deste*/
-
+var files = [
+  "migrations",
+	"Cliente",
+	"Produto.js",
+	"Post"
+]
 var item = '' ;
 for (let i = 0; i < files.length; i++) {  	
 	let item = files[i].replace(".js", "");	
-  alert(item);
 	document.write(unescape("%3Cscript src='" + item + ".js' type='text/javascript'%3E%3C/script%3E"));
 }
 	
